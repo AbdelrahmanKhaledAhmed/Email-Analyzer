@@ -12,7 +12,8 @@ The tool helps Blue Team members and SOC analysts inspect email headers, authent
 
 ![Input Page](input.png)
 
-![Results Page](results.png)
+![Results Page](results-1.png)
+![Results Page](results-2.png)
 
 
 ---
