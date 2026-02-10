@@ -1,24 +1,11 @@
-# 🛡️ PhishyEmailAnalyzer
+# PhishyEmailAnalyzer
 
 PhishyEmailAnalyzer is a Python-based desktop application designed to analyze suspicious emails and identify phishing indicators.
 
 The tool helps Blue Team members and SOC analysts inspect email headers, authentication results, URLs, and attachments in a clear and structured way.
 
----
 
-## 📸 Screenshots
-
-![Splash Screen](splash.png)
-
-![Input Page](input.png)
-
-![Results Page](results-1.png)
-![Results Page](results-2.png)
-
-
----
-
-## 🔍 Features
+## Features
 
 - Email header extraction  
   (From, To, Subject, Date, Reply-To, Return-Path)
@@ -44,9 +31,8 @@ The tool helps Blue Team members and SOC analysts inspect email headers, authent
   - Browserling
   - CyberChef
 
----
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - Python
 - CustomTkinter (GUI)
@@ -54,9 +40,8 @@ The tool helps Blue Team members and SOC analysts inspect email headers, authent
 - Base64 decoding
 - SHA-256 hashing
 
----
 
-## ▶️ How to Run
+## How to Run
 
 1. Make sure Python is installed on your system  
 2. Install the required dependency: pip install -r requirements.txt
