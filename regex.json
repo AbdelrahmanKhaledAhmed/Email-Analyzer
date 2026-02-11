@@ -18,8 +18,8 @@
   },
 
   "attachments": {
-    "filename": "filename=\"?([^\"\\n]+)\"?",
-    "content_b64": "filename=\"{filename}\"[\\s\\S]+?Content-Transfer-Encoding:\\s*base64\\s*\\n\\n([A-Za-z0-9+/=\\r\\n]+?)\\n------="
+    "filename": "(?mi)(?:filename|name)=\"?([^\"\\r\\n;]+)\"?",
+    "content_b64": "(?i)Content-Transfer-Encoding:\\s*base64\\s*(?:\\r?\\n[^\r\n]*)*\\r?\\n\\r?\\n([A-Za-z0-9+/=\\r\\n]+?)(?=\\r?\\n\\s*--|\\Z)"  
   },
 
   "domain": {
