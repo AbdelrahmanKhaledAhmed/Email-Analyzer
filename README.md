@@ -85,6 +85,9 @@ pip install -r requirements.txt
 python main.py
 ```
 4. Important: Ensure regex.json and links.json are in the same folder as main.py. These files contain all regex rules and URLs used for analysis and link lookups. Without them, the tool will not function correctly.
+5. ```bash
+   python -m pyinstaller --noconsole --onefile --icon=icon.ico --name "Email Analyzer" main.py
+   ```
 
 ## Notes
 
