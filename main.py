@@ -10,8 +10,10 @@ from urllib.parse import urlparse, unquote
 import urllib.parse
 import json
 import os
+import tkinter as tk
 import threading
 import sys
+from PIL import Image, ImageTk, ImageDraw, ImageFont, ImageFilter
 
 ctk.set_appearance_mode("dark")
 
@@ -234,89 +236,63 @@ class EmailAnalzerEngine:
 # -------------------------------------------------------------------------------------- SplashScreen --------------------------------------------------------------------------------------
 
 
-class SplashScreen(ctk.CTk):
+class SplashScreen(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.overrideredirect(True)  # إخفاء شريط العنوان
-        self.configure(fg_color=BG_DEEP)
 
-        icon_path = resource_path("icon.ico")
-        self.iconbitmap(icon_path)
+        self.overrideredirect(True)
+        self.config(bg="black")
+        self.attributes("-transparentcolor", "black")
 
-        self.config(background="#000001")
-        self.attributes("-transparentcolor", "#000001")
-
-        self.configure(fg_color="#000001")
-
-        width, height = 600, 400
+        width, height = 900, 500
         screen_width = self.winfo_screenwidth()
         screen_height = self.winfo_screenheight()
-        x = (screen_width // 2) - (width // 2)
-        y = (screen_height // 2) - (height // 2)
+        x = (screen_width - width) // 2
+        y = (screen_height - height) // 2
         self.geometry(f"{width}x{height}+{x}+{y}")
 
-        self.frame = ctk.CTkFrame(
-            self,
-            fg_color=CARD_BG,
-            corner_radius=20,
-            border_width=2,
-            border_color=BLUE_MAIN,
-        )
-        self.frame.pack(padx=10, pady=10, fill="both", expand=True)
+        img = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(img)
 
-        self.title_label = ctk.CTkLabel(
-            self.frame, text="     🛡️", font=("Segoe UI", 80)
-        )
-        self.title_label.pack(pady=(60, 10))
+        # الخطوط
+        try:
+            font_big = ImageFont.truetype("arialbd.ttf", 120)
+            font_small = ImageFont.truetype("arialbd.ttf", 90)
+        except:
+            font_big = ImageFont.load_default()
+            font_small = ImageFont.load_default()
 
-        self.brand_label = ctk.CTkLabel(
-            self.frame,
-            text="Email Analyzer",
-            font=("Impact", 40),
-            text_color=BLUE_MAIN,
-        )
-        self.brand_label.pack()
+        text1 = "EMAIL"
+        text2 = "ANALYZER"
 
-        self.tagline = ctk.CTkLabel(
-            self.frame,
-            text="ADVANCED EMAIL THREAT INTELLIGENCE",
-            font=("Consolas", 12),
-            text_color="#64748b",
-        )
-        self.tagline.pack(pady=(0, 30))
+        # دالة رسم النص الأبيض فقط
+        def draw_white_text(draw_obj, text, font, pos):
+            x, y = pos
+            draw_obj.text((x, y), text, font=font, fill=(255, 255, 255, 255))
 
-        self.progress = ctk.CTkProgressBar(
-            self.frame,
-            width=400,
-            height=12,
-            progress_color=BLUE_MAIN,
-            fg_color="#1e293b",
-        )
-        self.progress.pack(pady=20)
-        self.progress.set(0)
+        # تحديد موضع مركزي للنص
+        bbox1 = draw.textbbox((0, 0), text1, font=font_small)
+        w1, h1 = bbox1[2] - bbox1[0], bbox1[3] - bbox1[1]
 
-        self.status_label = ctk.CTkLabel(
-            self.frame,
-            text="Loading Engine",
-            font=("Consolas", 10),
-            text_color=BLUE_MAIN,
-        )
-        self.status_label.pack()
+        bbox2 = draw.textbbox((0, 0), text2, font=font_big)
+        w2, h2 = bbox2[2] - bbox2[0], bbox2[3] - bbox2[1]
+
+        x1 = (width - w1) // 2
+        y1 = (height // 2) - h1 - 20
+        x2 = (width - w2) // 2
+        y2 = (height // 2) + 20
+
+        # رسم النصوص
+        draw_white_text(draw, text1, font_small, (x1, y1))
+        draw_white_text(draw, text2, font_big, (x2, y2))
+
+        self.logo_image = ImageTk.PhotoImage(img)
+        label = tk.Label(self, image=self.logo_image, bg="black")
+        label.pack(expand=True)
 
     def start(self):
-        steps = [
-            "Loading Engine.",
-            "Loading Engine..",
-            "Loading Engine...",
-            "System Ready!",
-        ]
-        for i in range(1, 101):
-            time.sleep(0.04)
-            self.progress.set(i / 100)
-            if i % 25 == 0:
-                self.status_label.configure(text=steps[(i // 25) - 1])
-            self.update()
-        self.destroy()
+        self.after(3000, self.destroy)
+        self.mainloop()
 
 
 # ------------------------------------------------------------------------------------------- Main App -------------------------------------------------------------------------------------
